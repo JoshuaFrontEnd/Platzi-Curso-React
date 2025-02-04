@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 import { AppUI } from './AppUI';
 
@@ -12,7 +12,12 @@ import { AppUI } from './AppUI';
 // localStorage.removeItem(itemName);
 
 function App() {
-  const [todos, saveTodos] = useLocalStorage('TODOS_V1', []);
+  const {
+    item: todos,
+    saveItem: saveTodos,
+    loading,
+    error,
+  } = useLocalStorage('TODOS_V1', []);
   const [searchValue, setSearchValue] = useState('');
 
   const completedTodos = todos.filter(todo => !!todo.completed).length;
@@ -42,6 +47,8 @@ function App() {
   return (
     <AppUI
       {...{
+        loading,
+        error,
         completedTodos,
         totalTodos,
         searchValue,
